@@ -44,3 +44,8 @@ Now you just insert JimTheBotLOL into your faxbot requests.  Want a Knob Goblin 
 Don't think too hard about how all this is just robots talking to other robots.  That's part of how daily life works in 2014 (and beyond).
 
 Also the code is bad and I'm bad but if you are better you can make the code better too.
+
+WHO
+===
+
+Someone Who Plays KoL Wrote This Bot
