@@ -19,7 +19,7 @@ fax short name    (if your open fax is in "DUMB BUNNIES" clan then you would /wh
 
 
 vars = File.readlines(info_file)
-vars.each do |v| puts v.strip + ": " + v.strip.length.to_s end
+#vars.each do |v| puts v.strip + ": " + v.strip.length.to_s end
 
 
 
@@ -88,14 +88,14 @@ def ProcessQueue()
     clan = ""
     $main.links.each{
     |l|
-    puts l.text
+    #puts l.text
     if l.text == $clan_full_name then
     valid_clan=true
     end
     }
     if !valid_clan then
       $busy = false
-      ChatCommand("/msg " + user + " UNAUTHORIZED ACCESS")
+      ChatCommand("/msg " + user.downcase.tr(" ","_") + " UNAUTHORIZED ACCESS")
     return
     end
   end
@@ -109,15 +109,15 @@ def ProcessQueue()
   end
   if bot.length > 0 and mob.length > 0 then
     puts user + " wants a " + mob + " from " + bot
-    ChatCommand("/msg " + user.downcase.tr(" ","_") + " You have requested '" + mob + "' from " + bot + "!")
+    ChatCommand("/msg " + user.downcase.tr(" ","_").downcase.tr(" ","_") + " You have requested '" + mob + "' from " + bot + "!")
   else
-    ChatCommand("/msg " + user.downcase.tr(" ","_") + " Command requires [botname] [monster name].")
+    ChatCommand("/msg " + user.downcase.tr(" ","_").downcase.tr(" ","_") + " Command requires [botname] [monster name].")
   end
   if bot.downcase == "easyfax" or bot.downcase == "faxbot" or bot.downcase == "faustbot" then
     $busy = true
     RequestFax(user,bot,mob)
   else
-    ChatCommand("/msg " + user.downcase.tr(" ","_") + " I do not recognize this bot: " + bot + "!")
+    ChatCommand("/msg " + user.downcase.tr(" ","_").downcase.tr(" ","_") + " I do not recognize this bot: " + bot + "!")
   end
 end
 
@@ -158,7 +158,7 @@ def RequestFax(user,bot,mob)
         words = input.scan(/.+\(private\).+/)
         ChatCommand("/clear")
         if words.any? then
-          puts "prbo: " + words.last
+          puts "Robo-Response: " + words.last
           responding_bot = words.last.scan(/(.+) \(/).last.first
           if responding_bot.downcase == "faxbot" or responding_bot.downcase == "easyfax" or responding_bot.downcase == "faustbot" then
             if words.last.include? "has copied" or words.last.include? "fax is ready" or words.last.include? "has been delivered" then
@@ -166,14 +166,14 @@ def RequestFax(user,bot,mob)
               CompleteFax(user,mob,bot)
             break
             else
-              puts "bot error :" + words
-              if words.include? "do not understand" or words.include? "find that monster" or words.include? "an invalid monster" then
-                ChatCommand("/msg " + user + " Hey, " + bot + " doesn't know that mob by that name (" + mob + ").")
+              puts "Robot error: " + words
+              if words.last.include? "do not understand" or words.last.include? "find that monster" or words.last.include? "an invalid monster" then
+                ChatCommand("/msg " + user.downcase.tr(" ","_") + " Hey, " + bot + " doesn't know that mob by that name (" + mob + ").")
               $busy = false
               break
               end
-              if words.include? "just delivered" or words.include? "made a request" then
-                ChatCommand("/msg " + user + " Hey, " + bot + " requests that you wait a bit, sorry.")
+              if words.last.include? "just delivered" or words.last.include? "made a request" then
+                ChatCommand("/msg " + user.downcase.tr(" ","_") + " Hey, " + bot + " requests that you wait a bit, sorry.")
               $busy = false
               break
               end
@@ -183,11 +183,11 @@ def RequestFax(user,bot,mob)
       end
     end
     if !fax_complete then
-      ChatCommand("/msg " + user + " Hey, " + bot + " didn't respond after 30 seconds so...")
+      ChatCommand("/msg " + user.downcase.tr(" ","_") + " Hey, " + bot + " didn't respond after 30 seconds so...")
     $busy = false
     end
   else
-    ChatCommand("/msg " + user.downcase.tr(" ","_") + " I didn't see " + bot + " online!")
+    ChatCommand("/msg " + user.downcase.tr(" ","_").downcase.tr(" ","_") + " I didn't see " + bot + " online!")
   $busy = false
   end
 end
@@ -204,7 +204,7 @@ def CompleteFax(user,mob,bot)
   $main.image(:title => "A Fax Machine").click
   sleep(1)
   $main.button(:value => "Send a Fax").click
-  ChatCommand("/msg " + user + " One "+mob+" in Fax courtesy of " +bot+ ".")
+  ChatCommand("/msg " + user.downcase.tr(" ","_") + " One "+mob+" in Fax courtesy of " +bot+ ".")
   $busy = false
 
 end
