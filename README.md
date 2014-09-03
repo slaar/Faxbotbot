@@ -34,6 +34,6 @@ MORE HOW
 
 Now you just insert JimTheBotLOL into your faxbot requests.  Want a Knob Goblin Elite Guard Captain from Faxbot?  Just do: "Knob Goblin Elite Guard Captain: /w JimTheBotLOL FaxBot kge".  Want a cheap strix from Easyfax? "/msg JimTheBotLOL easyfax cheap strix".  Want something from faustbot?  YOU GET THE IDEA!  This bot only recognizes those three fax providers and you must use monster names that your desired fax provider understands.  It's a middleman.  You are literally putting the man (bot) in the middle of your command to another bot.  Make sure this bot is whitelisted into both clans.  Make sure both clans have a fax machine.  Make sure this bot has a VIP key.  Make me some food I'm hungry.
 
-Don't think too hard about how all this is just robots talking to other robots.  That's part of how daily life works these days.
+Don't think too hard about how all this is just robots talking to other robots.  That's part of how daily life worksin 2014 (and beyond).
 
 Also the code is bad and I'm bad but if you are better you can make the code better too.
