@@ -25,18 +25,18 @@ vars.each do |v| puts v.strip + ": " + v.strip.length.to_s end
 
 
 
-account_name = vars[0].strip
-account_password = vars[1].strip
-clan_full_name = vars[2].strip
-clan_short_name = vars[3].strip
-fax_clan_short_name = vars[4].strip
+$account_name = vars[0].strip
+$account_password = vars[1].strip
+$clan_full_name = vars[2].strip
+$clan_short_name = vars[3].strip
+$fax_clan_short_name = vars[4].strip
 
 $chatbrowser = Watir::Browser.new
 
 $chatbrowser.goto 'http://kingdomofloathing.com/game.php'
 
-$chatbrowser.text_field(:name => "loginname").set(account_name)
-$chatbrowser.text_field(:name => "password").set(account_password)
+$chatbrowser.text_field(:name => "loginname").set($account_name)
+$chatbrowser.text_field(:name => "password").set($account_password)
 
 if $chatbrowser.button(:value, "Log In").exists? then
   $chatbrowser.button(:value, "Log In").click
@@ -89,7 +89,7 @@ def ProcessQueue()
     $main.links.each{
     |l|
     puts l.text
-    if l.text == clan_full_nane then
+    if l.text == $clan_full_name then
     valid_clan=true
     end
     }
@@ -146,7 +146,7 @@ def RequestFax(user,bot,mob)
     }
   end
   if (bot == "faxbot" and $faxbot) or (bot == "easyfax" and $easyfax) or (bot == "faustbot" and $faustbot) then
-    ChatCommand("/whitelist " + fax_clan_short_name)
+    ChatCommand("/whitelist " + $fax_clan_short_name)
     ChatCommand("/msg " + bot + " " + mob)
     fax_complete = false
     attempts = 0
@@ -200,7 +200,7 @@ def CompleteFax(user,mob,bot)
   sleep(1)
   $main.button(:value => "Receive a Fax").click
   sleep(1)
-  ChatCommand("/whitelist " + clan_short_name)
+  ChatCommand("/whitelist " + $clan_short_name)
   $main.image(:title => "A Fax Machine").click
   sleep(1)
   $main.button(:value => "Send a Fax").click
