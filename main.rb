@@ -17,13 +17,8 @@ fax short name    (if your open fax is in "DUMB BUNNIES" clan then you would /wh
 
 =end
 
-
 vars = File.readlines(info_file)
 #vars.each do |v| puts v.strip + ": " + v.strip.length.to_s end
-
-
-
-
 
 $account_name = vars[0].strip
 $account_password = vars[1].strip
@@ -84,18 +79,21 @@ def ProcessQueue()
     ChatCommand("/whois " + user)
     sleep(2)
     $chat.link(:text => /#{user}/).click
+    sleep(2)
     valid_clan = false
     clan = ""
     $main.links.each{
     |l|
-    #puts l.text
-    if l.text == $clan_full_name then
-    valid_clan=true
-    end
+      if l.href.scan(/(showclan)/).any? then
+        puts l.text
+      end
+      if l.text.strip == $clan_full_name then
+      valid_clan=true
+      end
     }
     if !valid_clan then
-      $busy = false
       ChatCommand("/msg " + user.downcase.tr(" ","_") + " UNAUTHORIZED ACCESS")
+      $busy = false
     return
     end
   end
@@ -109,15 +107,15 @@ def ProcessQueue()
   end
   if bot.length > 0 and mob.length > 0 then
     puts user + " wants a " + mob + " from " + bot
-    ChatCommand("/msg " + user.downcase.tr(" ","_").downcase.tr(" ","_") + " You have requested '" + mob + "' from " + bot + "!")
+    ChatCommand("/msg " + user.downcase.tr(" ","_") + " You have requested '" + mob + "' from " + bot + "!")
   else
-    ChatCommand("/msg " + user.downcase.tr(" ","_").downcase.tr(" ","_") + " Command requires [botname] [monster name].")
+    ChatCommand("/msg " + user.downcase.tr(" ","_") + " Command requires [botname] [monster name].")
   end
   if bot.downcase == "easyfax" or bot.downcase == "faxbot" or bot.downcase == "faustbot" then
     $busy = true
     RequestFax(user,bot,mob)
   else
-    ChatCommand("/msg " + user.downcase.tr(" ","_").downcase.tr(" ","_") + " I do not recognize this bot: " + bot + "!")
+    ChatCommand("/msg " + user.downcase.tr(" ","_") + " I do not recognize this bot: " + bot + "!")
   end
 end
 
@@ -166,16 +164,16 @@ def RequestFax(user,bot,mob)
               CompleteFax(user,mob,bot)
             break
             else
-              puts "Robot error: " + words
+              puts "Robot error: " + words.last
               if words.last.include? "do not understand" or words.last.include? "find that monster" or words.last.include? "an invalid monster" then
                 ChatCommand("/msg " + user.downcase.tr(" ","_") + " Hey, " + bot + " doesn't know that mob by that name (" + mob + ").")
               $busy = false
-              break
+              return
               end
               if words.last.include? "just delivered" or words.last.include? "made a request" then
                 ChatCommand("/msg " + user.downcase.tr(" ","_") + " Hey, " + bot + " requests that you wait a bit, sorry.")
               $busy = false
-              break
+              return
               end
             end
           end
@@ -185,6 +183,7 @@ def RequestFax(user,bot,mob)
     if !fax_complete then
       ChatCommand("/msg " + user.downcase.tr(" ","_") + " Hey, " + bot + " didn't respond after 30 seconds so...")
     $busy = false
+    return
     end
   else
     ChatCommand("/msg " + user.downcase.tr(" ","_").downcase.tr(" ","_") + " I didn't see " + bot + " online!")
