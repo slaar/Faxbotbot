@@ -121,7 +121,7 @@ end
 
 def RequestFax(user,bot,mob)
   ChatCommand("/friends")
-  sleep(5)
+  $chat.div(:id => "ChatWindow").table.td(:class => "tiny").wait_until_present
   input = $chat.div(:id => "ChatWindow").table.td(:class => "tiny")
   puts input.text
   if input.text.length > 0 then
@@ -148,9 +148,9 @@ def RequestFax(user,bot,mob)
     ChatCommand("/msg " + bot + " " + mob)
     fax_complete = false
     attempts = 0
-    while !fax_complete and attempts <= 3 do
+    while !fax_complete and attempts <= 5 do
       attempts = attempts + 1
-      sleep(15)
+      sleep(5)
       input = $chat.div(:id => "ChatWindow").text
       if input.length > 0 then
         words = input.scan(/.+\(private\).+/)
@@ -194,14 +194,18 @@ end
 def CompleteFax(user,mob,bot)
 
   ChatCommand("/go vip")
-  sleep(1)
+  #sleep(1)
+  $main.image(:title => "A Fax Machine").wait_until_present
   $main.image(:title => "A Fax Machine").click
-  sleep(1)
+  #sleep(1)
+  $main.button(:value => "Receive a Fax").wait_until_present
   $main.button(:value => "Receive a Fax").click
-  sleep(1)
+  #sleep(1)
   ChatCommand("/whitelist " + $clan_short_name)
+  $main.image(:title => "A Fax Machine").wait_until_present
   $main.image(:title => "A Fax Machine").click
-  sleep(1)
+  #sleep(1)
+  $main.button(:value => "Send a Fax").wait_until_present
   $main.button(:value => "Send a Fax").click
   ChatCommand("/msg " + user.downcase.tr(" ","_") + " One "+mob+" in Fax courtesy of " +bot+ ".")
   $busy = false
