@@ -73,7 +73,7 @@ end
 def ProcessQueue()
   line = $queue.shift.first
   user = line.scan(/(.+) \(/).last.first
-  if user.downcase == "faxbot" or user.downcase == "easyfax" or user.downcase == "faustbot" then
+  if user.downcase == "faxbot" or user.downcase == "easyfax" or user.downcase == "faustbot" or user.count(':') > 0 then
   return
   else
     ChatCommand("/whois " + user)
