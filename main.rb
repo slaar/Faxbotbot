@@ -143,7 +143,7 @@ def RequestFax(user,bot,mob)
       end
     }
   end
-  if (bot == "faxbot" and $faxbot) or (bot == "easyfax" and $easyfax) or (bot == "faustbot" and $faustbot) then
+  if (bot.downcase == "faxbot" and $faxbot) or (bot.downcase == "easyfax" and $easyfax) or (bot.downcase == "faustbot" and $faustbot) then
     ChatCommand("/whitelist " + $fax_clan_short_name)
     ChatCommand("/msg " + bot + " " + mob)
     fax_complete = false
